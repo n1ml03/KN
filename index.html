@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title></title>
+</head>
+<body>
+    <div id="container">
+        <div class="heart"></div>         
+    </div>
+
+
+    <div class="title">
+        <!-- EDIT HERE -->
+        <img id="image" class="img" alt="" />
+    </div>
+
+    <audio id="music" autoplay loop controls style="display:none">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="anime.min.js"></script>
+
+    <script>
+        const container = document.getElementById('container');
+        const image = document.getElementById('image');
+        const numImages = 26;
+        const images = []
+        // const images = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg', 'image5.jpg' , 'image6.jpg', 
+        // 'image7.jpg', 'image8.jpg', 'image9.jpg', 'image10.jpg', 'image11.jpg', 'image12.jpg', 'image13.jpg', 'image14.jpg', 'image15.jpg', 'image16.jpg']; 
+        
+        // List of image file names
+        let currentImageIndex = 0;
+
+        const audio = document.getElementById('music');
+        window.addEventListener('load', () => {
+            audio.play();
+        });
+        
+        for (let i = 1; i <= numImages; i++) {
+            images.push(`./assets/image${i}.jpeg`);
+        }
+
+        // Function to change the image on click
+        function changeImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length; // Loop through the image array
+            image.src = images[currentImageIndex];
+        }
+
+        // Add a click event listener to the image
+        image.addEventListener('click', changeImage);
+        // Set an interval to change the image every 2 seconds (2000 milliseconds)
+        setInterval(changeImage, 2500);
+
+
+
+        function createHearts(numberHearts) {
+            for (i = 0; i <= numberHearts; i++) {
+                let heart = document.createElement('div');
+                heart.className = 'heart';          
+                heart.style.zIndex = Math.floor(Math.random() * 6) + 2;
+                container.appendChild(heart);
+            }
+        }
+
+        function animation() {
+            anime({
+                targets: '.heart',
+                translateX: function() {
+                    return anime.random(-700, 700);
+                },
+                translateY: function() {
+                    return anime.random(-500, 500);
+                },
+                rotate: 45,
+                scale: function() {
+                    return anime.random(1, 5);
+                },              
+                easing: 'easeInOutBack',
+                duration: 4500,
+                delay: anime.stagger(10),
+                complete: animation,
+            })
+        }
+
+        createHearts(50);
+        animation();
+    </script>
+</body>
+</html>
