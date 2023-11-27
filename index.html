@@ -44,7 +44,21 @@
                 image.src = images[currentImageIndex];
             }
 
-            image.addEventListener('click', changeImage);
+            // Function to start playing music
+            function playMusic() {
+                try {
+                    audio.play();
+                } catch (error) {
+                    // Handle play error if needed
+                }
+            }
+
+            // Add event listener to the image for both changing the image and playing music
+            image.addEventListener('click', function () {
+                changeImage();
+                playMusic();
+            });
+
             setInterval(changeImage, 3000);
 
             function createHearts(numberHearts) {
@@ -79,16 +93,6 @@
             createHearts(48);
             animation();
 
-            // Attempt to play audio
-            const promise = audio.play();
-            if (promise !== undefined) {
-                promise.then(() => {
-                    // Autoplay is allowed
-                }).catch((error) => {
-                    // Autoplay is not allowed
-                    // You can handle this case, e.g., by showing a play button for the user to start playback manually
-                });
-            }
         });
     </script>
 </body>
