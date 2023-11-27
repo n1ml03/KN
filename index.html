@@ -15,7 +15,7 @@
 
     <div class="title">
         <!-- EDIT HERE -->
-        <img id="image" class="img"/>
+        <img id="image" class="img" alt="KN"/>
     </div>
 
     <audio id="music" autoplay loop controls style="display:none">
@@ -26,70 +26,70 @@
     <script src="anime.min.js"></script>
 
     <script>
-        const audio = document.getElementById('music');
-        setTimeout(function() {
-            audio.play();
-        }, 2000);
+        document.addEventListener('DOMContentLoaded', function () {
+            const audio = document.getElementById('music');
+            const container = document.getElementById('container');
+            const image = document.getElementById('image');
+            const numImages = 26;
+            let currentImageIndex = 0;
 
-        const container = document.getElementById('container');
-        const image = document.getElementById('image');
-        const numImages = 26;
-        const images = []
-        // const images = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg', 'image5.jpg' , 'image6.jpg', 
-        // 'image7.jpg', 'image8.jpg', 'image9.jpg', 'image10.jpg', 'image11.jpg', 'image12.jpg', 'image13.jpg', 'image14.jpg', 'image15.jpg', 'image16.jpg']; 
-        
-
-        // List of image file names
-        let currentImageIndex = 0;
-        
-        for (let i = 1; i <= numImages; i++) {
-            images.push(`./assets/image${i}.jpeg`);
-        }
-
-        // Function to change the image on click
-        function changeImage() {
-            currentImageIndex = (currentImageIndex + 1) % images.length; // Loop through the image array
-            image.src = images[currentImageIndex];
-        }
-
-        // Add a click event listener to the image
-        image.addEventListener('click', changeImage);
-        // Set an interval to change the image every 2 seconds (2000 milliseconds)
-        setInterval(changeImage, 3000);
-
-
-
-        function createHearts(numberHearts) {
-            for (i = 0; i <= numberHearts; i++) {
-                let heart = document.createElement('div');
-                heart.className = 'heart';          
-                heart.style.zIndex = Math.floor(Math.random() * 6) + 2;
-                container.appendChild(heart);
+            // List of image file names
+            const images = [];
+            for (let i = 1; i <= numImages; i++) {
+                images.push(`./assets/image${i}.jpeg`);
             }
-        }
 
-        function animation() {
-            anime({
-                targets: '.heart',
-                translateX: function() {
-                    return anime.random(-700, 700);
-                },
-                translateY: function() {
-                    return anime.random(-500, 500);
-                },
-                rotate: 45,
-                scale: function() {
-                    return anime.random(1, 5);
-                },              
-                easing: 'easeInOutBack',
-                duration: 4500,
-                delay: anime.stagger(10),
-                complete: animation,
-            })
-        }
+            function changeImage() {
+                currentImageIndex = (currentImageIndex + 1) % images.length;
+                image.src = images[currentImageIndex];
+            }
 
-        createHearts(50);
-        animation();
+            image.addEventListener('click', changeImage);
+            setInterval(changeImage, 3000);
+
+            function createHearts(numberHearts) {
+                for (let i = 0; i < numberHearts; i++) {
+                    let heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.style.zIndex = Math.floor(Math.random() * 6) + 2;
+                    container.appendChild(heart);
+                }
+            }
+
+            function animation() {
+                anime({
+                    targets: '.heart',
+                    translateX: function () {
+                        return anime.random(-700, 700);
+                    },
+                    translateY: function () {
+                        return anime.random(-500, 500);
+                    },
+                    rotate: 45,
+                    scale: function () {
+                        return anime.random(1, 5);
+                    },
+                    easing: 'easeInOutBack',
+                    duration: 4500,
+                    delay: anime.stagger(10),
+                    complete: animation,
+                });
+            }
+
+            createHearts(48);
+            animation();
+
+            // Attempt to play audio
+            const promise = audio.play();
+            if (promise !== undefined) {
+                promise.then(() => {
+                    // Autoplay is allowed
+                }).catch((error) => {
+                    // Autoplay is not allowed
+                    // You can handle this case, e.g., by showing a play button for the user to start playback manually
+                });
+            }
+        });
     </script>
 </body>
 </html>
