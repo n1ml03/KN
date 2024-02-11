@@ -12,16 +12,14 @@
         <div class="heart"></div>         
     </div>
 
-
     <div class="title">
         <!-- EDIT HERE -->
         <img id="image" class="img" alt="KN"/>
     </div>
 
-    <audio id="music" autoplay loop controls style="display:none">
-        <source src="music.mp3" type="audio/mpeg">
+    <audio id="music" loop controls style="display:none">
+        <source src="/public/music.mp3" type="audio/mpeg">
     </audio>
-    
 
     <script src="anime.min.js"></script>
 
@@ -33,16 +31,21 @@
             const numImages = 26;
             let currentImageIndex = 0;
 
-            // List of image file names
+            // Preload images
             const images = [];
             for (let i = 1; i <= numImages; i++) {
-                images.push(`./assets/image${i}.jpeg`);
+                const img = new Image();
+                img.src = `./assets/image${i}.jpeg`;
+                images.push(img);
             }
 
             function changeImage() {
                 currentImageIndex = (currentImageIndex + 1) % images.length;
-                image.src = images[currentImageIndex];
+                image.src = images[currentImageIndex].src;
             }
+
+            // Preload audio
+            audio.load();
 
             // Function to start playing music
             function playMusic() {
