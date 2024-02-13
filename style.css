@@ -92,7 +92,8 @@ h1 span {
     transform: translate(-50%, -50%);
     width: 420px;
     height: 420px;
-    }
+    z-index: 1;
+}
 
 img {
     aspect-ratio: 1;
